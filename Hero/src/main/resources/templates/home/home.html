@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    >
+<th:block th:include="~{_fragments/head}"/>
+<body>
+<th:block th:include="~{_fragments/header}"/>
+
+
+<main>
+    <div class="text-center mb-3">
+        <h4 class="text-white mt-2">Welcome to the arena, [[${session.username}]]</span> </h4>
+    </div>
+    <hr class="my-3"/>
+    <div class="container">
+
+        <th:block th:if="${session.heroName == null}">
+            <div class="text-center">
+                <h2>[[${session.username}]], you don't have a hero. Click below and create one.</h2>
+                <a th:href="@{/heroes/create}" class="btn btn-secondary">Create hero</a>
+            </div>
+        </th:block>
+        <th:block th:unless="${session.heroName == null}">
+            <div class="text-center">
+                <h2>You are ready! Choose hero to begin epic battle!</h2>
+            </div>
+            <th:block th:each="hero : ${heroFight}">
+                <div class="row flex-md-row m-3">
+                    <div class="col text-center">
+                        <img th:src="@{/img/{gender}.jpg(gender=${hero.gender})}" width="150">
+                        <h2 class="text-white" th:text="${hero.name}"></h2>
+                        <a class="btn btn-secondary" th:href="@{/heroes/fight/{name}(name=${hero.name})}">Fight</a>
+                    </div>
+                </div>
+            </th:block>
+            <div class="mb-5"></div>
+            <div class="mb-3"></div>
+        </th:block>
+
+    </div>
+</main>
+
+<th:block th:include="~{_fragments/footer}"/>
+</body>
+</html>
